@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+
+<html class="dark scroll-smooth" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>IA Generativa aplicada à Programação | Portfolio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#b9cbb9",
+                        "on-primary-container": "#007139",
+                        "secondary-fixed-dim": "#00daf3",
+                        "on-primary-fixed": "#00210c",
+                        "secondary-container": "#00e3fd",
+                        "surface-container-highest": "#2d372e",
+                        "outline": "#849585",
+                        "on-tertiary-container": "#795f01",
+                        "on-secondary-fixed-variant": "#004f58",
+                        "surface-variant": "#2d372e",
+                        "surface-dim": "#0c160e",
+                        "surface-container-low": "#141e16",
+                        "on-secondary-fixed": "#001f24",
+                        "surface-bright": "#323c32",
+                        "on-error": "#690005",
+                        "primary": "#f1ffef",
+                        "surface-tint": "#00e479",
+                        "surface-container-high": "#222c24",
+                        "secondary": "#bdf4ff",
+                        "on-tertiary-fixed": "#241a00",
+                        "inverse-primary": "#006d37",
+                        "on-secondary-container": "#00616d",
+                        "surface": "#0c160e",
+                        "inverse-on-surface": "#29332a",
+                        "on-error-container": "#ffdad6",
+                        "primary-fixed-dim": "#00e479",
+                        "on-tertiary": "#3d2f00",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "inverse-surface": "#dae6d8",
+                        "secondary-fixed": "#9cf0ff",
+                        "surface-container": "#18221a",
+                        "primary-fixed": "#60ff99",
+                        "on-secondary": "#00363d",
+                        "tertiary-fixed-dim": "#e5c364",
+                        "on-background": "#dae6d8",
+                        "tertiary-fixed": "#ffe08d",
+                        "tertiary-container": "#ffdb79",
+                        "error-container": "#93000a",
+                        "surface-container-lowest": "#071009",
+                        "tertiary": "#fffaf7",
+                        "error": "#ffb4ab",
+                        "outline-variant": "#3b4b3d",
+                        "on-surface": "#dae6d8",
+                        "on-primary-fixed-variant": "#005228",
+                        "on-primary": "#003919",
+                        "background": "#050505",
+                        "primary-container": "#00ff88"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1200px",
+                        "gutter": "24px",
+                        "stack-sm": "12px",
+                        "base": "8px",
+                        "margin-mobile": "16px",
+                        "stack-md": "24px",
+                        "stack-lg": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg": ["Inter"],
+                        "code-sm": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "code-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-panel {
+            background-color: rgba(10, 10, 10, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-glow-primary:hover {
+            border-color: #00FF88;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+        .neon-glow-secondary:hover {
+            border-color: #00E5FF;
+            box-shadow: 0 0 15px rgba(0, 229, 255, 0.3);
+        }
+        .terminal-bg {
+            background-color: #020202;
+        }
+        .bg-grid-pattern {
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased overflow-x-hidden">
+<!-- Top Navigation -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 dark:bg-surface/70 backdrop-blur-md border-b border-outline-variant/20 shadow-[0_0_15px_rgba(0,255,136,0.1)]">
+<div class="flex justify-between items-center h-20 px-gutter max-w-container-max mx-auto">
+<div class="font-label-caps text-headline-lg-mobile font-bold tracking-tighter text-primary-container">
+                DEV_GEN_AI
+            </div>
+<div class="hidden md:flex gap-6 items-center">
+<a class="font-label-caps text-label-caps text-primary-container border-b-2 border-primary-container pb-1" href="#hero">Home</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300" href="#sobre">Knowledge</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300" href="#stack">Stack</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300" href="#projetos">Projects</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary transition-colors duration-300" href="#jornada">Journey</a>
+</div>
+<a class="hidden md:inline-flex bg-primary-container text-black font-label-caps text-label-caps px-4 py-2 rounded font-bold hover:shadow-[0_0_15px_rgba(0,255,136,0.3)] transition-all" href="#contato">
+                Connect
+            </a>
+<!-- Mobile Menu Button Placeholder -->
+<button class="md:hidden text-primary-container">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<main class="pt-20">
+<!-- 1. HERO -->
+<section class="relative min-h-[90vh] flex items-center bg-grid-pattern py-stack-lg" id="hero">
+<div class="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
+<div class="font-code-sm text-primary-container absolute top-10 left-10 opacity-50">&gt; initializing_ai_system...<br/>&gt; loading_modules...<br/>&gt; status: online</div>
+</div>
+<div class="max-w-container-max mx-auto px-gutter w-full grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-center relative z-10">
+<div class="space-y-stack-md">
+<div class="font-label-caps text-primary-container tracking-widest uppercase">
+                        SENAI Ary Torres | 48h | Prof. Leandro Toniati
+                    </div>
+<h1 class="font-headline-xl text-headline-xl md:text-5xl lg:text-6xl text-white">
+                        IA Generativa<br/>aplicada à<br/><span class="text-primary-container">Programação</span>
+</h1>
+<div class="inline-block glass-panel px-4 py-2 rounded-full border-primary-container border neon-glow-primary mb-4">
+<span class="font-code-sm text-primary-container">powered_by: ChatGPT</span>
+</div>
+<p class="font-body-md text-on-surface-variant max-w-lg">
+                        Transformando lógica em inovação. Um mergulho profundo na integração de Inteligência Artificial para potencializar o desenvolvimento de software moderno.
+                    </p>
+<div class="flex flex-wrap gap-4 pt-4">
+<a class="bg-primary-container text-black font-label-caps px-6 py-3 rounded font-bold hover:shadow-[0_0_15px_rgba(0,255,136,0.5)] transition-all" href="#sobre">
+                            Conheça o curso
+                        </a>
+<a class="bg-transparent border border-secondary-container text-secondary-container font-label-caps px-6 py-3 rounded font-bold hover:bg-secondary-container/10 transition-all" href="#projetos">
+                            Ver projetos
+                        </a>
+</div>
+</div>
+<div class="relative flex justify-center md:justify-end">
+<!-- Photo Container -->
+<div class="relative w-64 h-80 md:w-80 md:h-96 glass-panel rounded-xl border border-primary-container/30 overflow-hidden shadow-[0_0_30px_rgba(0,255,136,0.15)] neon-glow-primary transition-all duration-500 group">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A striking portrait of a young software developer illuminated by dual-tone neon lighting (green and cyan) in a dark, high-tech environment. The lighting creates a dramatic, cinematic light-mode aesthetic against deep blacks, evoking a modern, generative AI hacker vibe. Professional, sharp focus, 8k resolution." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrLbkySxuXvObsI-KS5Wd9utBd2cNz2yCFEkQdDeCWtNCEkGjFnfqDwmSBrS_5nYpQO7uXrHTGQZ8Jzwo3BKFXfdBxsEr1MFGAyIlo-x5deCGN7M76v2XLH9vQ8G_Zi5TTrJH5cCETyekF-pUAfTywJXCivX2wF2nKGb-fIyLw9Rl1G4ji2-R-EtcKk3d0K0FVXQgA0rRu5ft9v6mBSdLDBxF9dpYubjJMYN_NT4PJL2fcDnF9Z_QlVg"/>
+<div class="absolute bottom-0 left-0 w-full p-4 z-20">
+<div class="font-code-sm text-primary-container mb-1">&gt; Developer_Profile</div>
+<div class="font-label-caps text-white bg-black/50 p-2 border border-white/10 rounded backdrop-blur-sm" contenteditable="true">
+                                Nome do Aluno
+                                <br/><span class="text-on-surface-variant text-[10px]">Desenvolvedor Full Stack &amp; AI Enthusiast</span>
+</div>
+</div>
+<!-- Terminal Dots -->
+<div class="absolute top-3 left-3 flex gap-1.5 z-20">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<div class="w-2 h-2 rounded-full bg-tertiary-container"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70 animate-bounce">
+<span class="font-label-caps text-[10px] text-on-surface-variant mb-2">SCROLL TO EXPLORE</span>
+<span class="material-symbols-outlined text-primary-container">arrow_downward</span>
+</div>
+</section>
+<!-- 2. SOBRE O CURSO & FLOW -->
+<section class="py-stack-lg border-t border-outline-variant/20" id="sobre">
+<div class="max-w-container-max mx-auto px-gutter space-y-stack-md">
+<div class="text-center mb-stack-lg">
+<h2 class="font-headline-lg text-headline-lg text-white mb-2">O Curso</h2>
+<div class="w-16 h-1 bg-primary-container mx-auto"></div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-stack-lg">
+<div class="glass-panel p-4 rounded text-center border border-white/5 neon-glow-primary">
+<span class="material-symbols-outlined text-3xl text-primary-container mb-2">schedule</span>
+<div class="font-headline-lg-mobile text-white font-bold">48h</div>
+<div class="font-code-sm text-on-surface-variant">Carga Horária</div>
+</div>
+<div class="glass-panel p-4 rounded text-center border border-white/5 neon-glow-primary">
+<span class="material-symbols-outlined text-3xl text-primary-container mb-2">school</span>
+<div class="font-headline-lg-mobile text-white font-bold">SENAI</div>
+<div class="font-code-sm text-on-surface-variant">Instituição</div>
+</div>
+<div class="glass-panel p-4 rounded text-center border border-white/5 neon-glow-secondary">
+<span class="material-symbols-outlined text-3xl text-secondary-container mb-2">smart_toy</span>
+<div class="font-headline-lg-mobile text-white font-bold">GenAI</div>
+<div class="font-code-sm text-on-surface-variant">Foco Principal</div>
+</div>
+<div class="glass-panel p-4 rounded text-center border border-white/5 neon-glow-secondary">
+<span class="material-symbols-outlined text-3xl text-secondary-container mb-2">code</span>
+<div class="font-headline-lg-mobile text-white font-bold">Dev</div>
+<div class="font-code-sm text-on-surface-variant">Prática</div>
+</div>
+</div>
+<!-- Evolution Path -->
+<div class="glass-panel p-6 rounded-xl border border-white/10 overflow-hidden relative">
+<div class="font-label-caps text-on-surface-variant mb-4">&gt; evolution_path.sh</div>
+<div class="flex flex-col md:flex-row justify-between items-center relative z-10 gap-4">
+<div class="flex items-center gap-2">
+<span class="text-primary-container bg-primary-container/10 p-2 rounded">01</span>
+<span class="font-code-sm">CONCEITOS</span>
+</div>
+<span class="material-symbols-outlined text-outline hidden md:block">arrow_right_alt</span>
+<div class="flex items-center gap-2">
+<span class="text-primary-container bg-primary-container/10 p-2 rounded">02</span>
+<span class="font-code-sm">PROGRAMAÇÃO</span>
+</div>
+<span class="material-symbols-outlined text-outline hidden md:block">arrow_right_alt</span>
+<div class="flex items-center gap-2">
+<span class="text-secondary-container bg-secondary-container/10 p-2 rounded">03</span>
+<span class="font-code-sm">IA</span>
+</div>
+<span class="material-symbols-outlined text-outline hidden md:block">arrow_right_alt</span>
+<div class="flex items-center gap-2">
+<span class="text-secondary-container bg-secondary-container/10 p-2 rounded">04</span>
+<span class="font-code-sm">PROJETOS</span>
+</div>
+<span class="material-symbols-outlined text-outline hidden md:block">arrow_right_alt</span>
+<div class="flex items-center gap-2">
+<span class="text-primary-container bg-primary-container/10 p-2 rounded">05</span>
+<span class="font-code-sm">APIs</span>
+</div>
+<span class="material-symbols-outlined text-outline hidden md:block">arrow_right_alt</span>
+<div class="flex items-center gap-2">
+<span class="text-white bg-white/10 p-2 rounded border border-primary-container">06</span>
+<span class="font-code-sm text-primary-container font-bold">CHATBOTS</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. IA NO DESENVOLVIMENTO (Moved up for better flow) -->
+<section class="py-stack-lg bg-surface-container-lowest">
+<div class="max-w-container-max mx-auto px-gutter text-center space-y-stack-md">
+<div class="inline-block border border-primary-container/50 px-6 py-2 rounded-full mb-4">
+<span class="font-code-sm text-primary-container">Programando com Inteligência Artificial</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-white max-w-3xl mx-auto italic font-light">
+                    "IA não substitui o programador. Ela amplia sua capacidade de explorar, criar, testar e aprender."
+                </h3>
+<div class="flex flex-wrap justify-center items-center gap-2 md:gap-4 mt-stack-md font-code-sm">
+<span class="px-4 py-2 border border-white/20 rounded hover:border-primary-container transition-colors">IDE</span>
+<span class="material-symbols-outlined text-primary-container">arrow_forward</span>
+<span class="px-4 py-2 border border-white/20 rounded hover:border-primary-container transition-colors">PROMPT</span>
+<span class="material-symbols-outlined text-primary-container">arrow_forward</span>
+<span class="px-4 py-2 bg-primary-container/20 border border-primary-container text-primary-container rounded shadow-[0_0_15px_rgba(0,255,136,0.2)]">IA</span>
+<span class="material-symbols-outlined text-primary-container">arrow_forward</span>
+<span class="px-4 py-2 border border-white/20 rounded hover:border-primary-container transition-colors">CÓDIGO</span>
+<span class="material-symbols-outlined text-primary-container">arrow_forward</span>
+<span class="px-4 py-2 border border-white/20 rounded hover:border-primary-container transition-colors">TESTE</span>
+<span class="material-symbols-outlined text-primary-container">arrow_forward</span>
+<span class="px-4 py-2 bg-secondary-container/20 border border-secondary-container text-secondary-container rounded">APLICAÇÃO</span>
+</div>
+</div>
+</section>
+<!-- 3. CONHECIMENTOS ADQUIRIDOS (Bento Grid Style) -->
+<section class="py-stack-lg border-t border-outline-variant/20">
+<div class="max-w-container-max mx-auto px-gutter">
+<div class="mb-stack-md">
+<h2 class="font-headline-lg text-headline-lg text-white mb-2">Knowledge Base</h2>
+<div class="w-16 h-1 bg-primary-container"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[150px]">
+<!-- Card 1 (Large) -->
+<div class="glass-panel rounded-xl p-6 border border-white/10 md:col-span-2 md:row-span-2 neon-glow-primary relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[100px] text-primary-container">psychology</span>
+</div>
+<div class="relative z-10 h-full flex flex-col justify-end">
+<div class="font-label-caps text-primary-container mb-2">Core</div>
+<h3 class="font-headline-lg-mobile text-white mb-2">IA Generativa &amp; ChatGPT</h3>
+<p class="font-code-sm text-on-surface-variant max-w-md">Domínio na formulação de prompts, entendimento de LLMs e aplicação prática na resolução de problemas de código.</p>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="glass-panel rounded-xl p-4 border border-white/10 neon-glow-secondary flex flex-col justify-between">
+<span class="material-symbols-outlined text-secondary-container">code_blocks</span>
+<div>
+<h4 class="font-code-sm text-white font-bold">Python</h4>
+<div class="w-full bg-black/50 h-1 mt-2 rounded overflow-hidden">
+<div class="bg-secondary-container h-full w-[80%]"></div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="glass-panel rounded-xl p-4 border border-white/10 neon-glow-secondary flex flex-col justify-between">
+<span class="material-symbols-outlined text-secondary-container">terminal</span>
+<div>
+<h4 class="font-code-sm text-white font-bold">Java + IA</h4>
+<div class="w-full bg-black/50 h-1 mt-2 rounded overflow-hidden">
+<div class="bg-secondary-container h-full w-[70%]"></div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="glass-panel rounded-xl p-4 border border-white/10 neon-glow-primary flex items-center gap-4">
+<span class="material-symbols-outlined text-3xl text-primary-container">language</span>
+<div>
+<h4 class="font-code-sm text-white font-bold">HTML/CSS/JS</h4>
+<p class="text-[10px] font-code-sm text-on-surface-variant">Web Fundamentals</p>
+</div>
+</div>
+<!-- Card 5 -->
+<div class="glass-panel rounded-xl p-4 border border-white/10 neon-glow-primary flex items-center gap-4">
+<span class="material-symbols-outlined text-3xl text-primary-container">api</span>
+<div>
+<h4 class="font-code-sm text-white font-bold">APIs</h4>
+<p class="text-[10px] font-code-sm text-on-surface-variant">Integração &amp; Consumo</p>
+</div>
+</div>
+<!-- Card 6 -->
+<div class="glass-panel rounded-xl p-4 border border-white/10 neon-glow-primary flex items-center gap-4">
+<span class="material-symbols-outlined text-3xl text-primary-container">smart_toy</span>
+<div>
+<h4 class="font-code-sm text-white font-bold">Chatbots</h4>
+<p class="text-[10px] font-code-sm text-on-surface-variant">Desenvolvimento</p>
+</div>
+</div>
+<!-- Card 7 -->
+<div class="glass-panel rounded-xl p-4 border border-white/10 neon-glow-primary flex items-center gap-4">
+<span class="material-symbols-outlined text-3xl text-primary-container">data_object</span>
+<div>
+<h4 class="font-code-sm text-white font-bold">Machine Learning</h4>
+<p class="text-[10px] font-code-sm text-on-surface-variant">Conceitos Base</p>
+</div>
+</div>
+<!-- Card 8 -->
+<div class="glass-panel rounded-xl p-4 border border-white/10 neon-glow-primary flex items-center gap-4 md:col-span-2">
+<span class="material-symbols-outlined text-3xl text-primary-container">source_environment</span>
+<div>
+<h4 class="font-code-sm text-white font-bold">GitHub &amp; Versionamento</h4>
+<p class="text-[10px] font-code-sm text-on-surface-variant">Colaboração e controle de código fonte.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. PROJETOS DESENVOLVIDOS -->
+<section class="py-stack-lg bg-surface/50 border-t border-outline-variant/20" id="projetos">
+<div class="max-w-container-max mx-auto px-gutter">
+<div class="mb-stack-md flex justify-between items-end">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-white mb-2">Projects_</h2>
+<div class="w-16 h-1 bg-secondary-container"></div>
+</div>
+<span class="font-code-sm text-on-surface-variant hidden md:block">/// execution_results</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Project 1 -->
+<div class="glass-panel border border-white/10 rounded-xl overflow-hidden group">
+<div class="h-48 bg-surface-container-highest relative overflow-hidden">
+<div class="absolute inset-0 bg-secondary-container/20 mix-blend-overlay z-10"></div>
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A futuristic minimalist screenshot of a web-based browser game interface, featuring sleek geometric shapes, neon green and cyan accents against a deep dark background, typical of a generative AI styling. Code snippets visible faintly in the background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAki9zaE6-WSjIaGcRNde4PrKvqIFKHhSu3YDOLkQHfSCUbbh-7yO3MMyNrhbU276EiAXchZOxdCXDraarDpW2lvePBAVtNsxtvx8WfUuMwtGXrkN2NnTdtzeyfS5USmzXuCV3aZshODTzqSWqDCNnzOUv6o5LS62PFFJPtNAmJsAmy6fGaLZeur56neIH6g91sP1X8Ze9ZMFKcn2HcCPRWX-llQr97Q1nAGBrvsedXqjLuVP8Y6zcjaQ"/>
+<!-- Terminal Top Bar -->
+<div class="absolute top-0 w-full h-6 bg-black/80 flex items-center px-2 gap-1.5 z-20">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<div class="w-2 h-2 rounded-full bg-tertiary-container"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+<span class="font-code-sm text-[10px] text-on-surface-variant ml-2">web_game.exe</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex gap-2 mb-3">
+<span class="text-[10px] font-label-caps border border-white/20 px-2 py-1 rounded text-on-surface-variant">HTML/JS</span>
+<span class="text-[10px] font-label-caps border border-primary-container/50 bg-primary-container/10 px-2 py-1 rounded text-primary-container">ChatGPT</span>
+</div>
+<h3 class="font-headline-lg-mobile text-white mb-2" contenteditable="true">Jogo Web Interativo</h3>
+<p class="font-code-sm text-on-surface-variant mb-4 h-16" contenteditable="true">Desenvolvimento de um jogo para navegador utilizando prompts estruturados para geração lógica de JavaScript e estilização CSS.</p>
+<a class="inline-flex items-center gap-2 text-secondary-container font-label-caps text-[12px] hover:text-white transition-colors group-hover:translate-x-2 duration-300" href="#">
+                                Ver Projeto <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="glass-panel border border-white/10 rounded-xl overflow-hidden group">
+<div class="h-48 bg-surface-container-highest relative overflow-hidden">
+<div class="absolute inset-0 bg-primary-container/20 mix-blend-overlay z-10"></div>
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A clean, dark-mode conceptual visual of a Java application architecture integrating with an AI brain. Floating digital nodes connected by glowing green and cyan lines. High tech, professional software engineering aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUplDdnt_EhQAdD5bH1I-uIvsTFL2bOS8L7EO3MUU_y4g6muQ1ohQf8jCJV1QYBYUkOZZ8lSlf98okYEwbVlvC3fLCWrDpFFzlq5d2KY8tsi1AwMV9Whv1AOPzy78KdBUNcXC5hYOgKX29ABJdZ_xcUH3tHgoQy7Q2Lc1EC761fnOMmUrmLtuJ2fYK-yzyIuqi_1R9BNh7i1LiDTp7AWvbclg1VqDd_vjbsRRqjQZAUsTQTHZkWdeb2g"/>
+<div class="absolute top-0 w-full h-6 bg-black/80 flex items-center px-2 gap-1.5 z-20">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<div class="w-2 h-2 rounded-full bg-tertiary-container"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+<span class="font-code-sm text-[10px] text-on-surface-variant ml-2">java_ai_app.jar</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex gap-2 mb-3">
+<span class="text-[10px] font-label-caps border border-white/20 px-2 py-1 rounded text-on-surface-variant">Java</span>
+<span class="text-[10px] font-label-caps border border-secondary-container/50 bg-secondary-container/10 px-2 py-1 rounded text-secondary-container">Machine Learning Base</span>
+</div>
+<h3 class="font-headline-lg-mobile text-white mb-2" contenteditable="true">Aplicação Java com IA</h3>
+<p class="font-code-sm text-on-surface-variant mb-4 h-16" contenteditable="true">Sistema backend em Java incorporando lógicas de tomada de decisão baseadas em conceitos de inteligência artificial.</p>
+<a class="inline-flex items-center gap-2 text-primary-container font-label-caps text-[12px] hover:text-white transition-colors group-hover:translate-x-2 duration-300" href="#">
+                                Ver Projeto <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Project 3 -->
+<div class="glass-panel border border-white/10 rounded-xl overflow-hidden group">
+<div class="h-48 bg-surface-container-highest relative overflow-hidden">
+<div class="absolute inset-0 bg-primary-container/20 mix-blend-overlay z-10"></div>
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A modern dark-mode chat interface mockup displaying a conversation with an AI bot. Neon accents, clean typography, glassmorphism elements over a deep black background. High tech aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsM7-jCRbh8g-F3HIxPuQf_1t-xzrls0A4k1VOF_FibJVHA-u6GNIJfPIbyl2tHeeVrGE4PwZrEFtsPhXmnQMsDzpIorSZQc0K_SQ4MOPyJaupdVT9CTY5yD9AvRrJVO8g9vj0B_Ca66Zis7pZZgpi5HEUEVitRG_z-t6-0hLkOumGDLC7jENYBuYXBpMbRO2MJ9lX2qrB8K96IAf22Ohy2n6IB-1Bvena9qF7HggSeeUI5NTxxQdxZg"/>
+<div class="absolute top-0 w-full h-6 bg-black/80 flex items-center px-2 gap-1.5 z-20">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<div class="w-2 h-2 rounded-full bg-tertiary-container"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+<span class="font-code-sm text-[10px] text-on-surface-variant ml-2">chatbot_engine.py</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex gap-2 mb-3">
+<span class="text-[10px] font-label-caps border border-white/20 px-2 py-1 rounded text-on-surface-variant">Python</span>
+<span class="text-[10px] font-label-caps border border-white/20 px-2 py-1 rounded text-on-surface-variant">NLP</span>
+</div>
+<h3 class="font-headline-lg-mobile text-white mb-2" contenteditable="true">Assistente Virtual (Chatbot)</h3>
+<p class="font-code-sm text-on-surface-variant mb-4 h-16" contenteditable="true">Criação de um agente conversacional capaz de interpretar intenções e gerar respostas contextuais dinâmicas.</p>
+<a class="inline-flex items-center gap-2 text-primary-container font-label-caps text-[12px] hover:text-white transition-colors group-hover:translate-x-2 duration-300" href="#">
+                                Ver Projeto <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Project 4 -->
+<div class="glass-panel border border-white/10 rounded-xl overflow-hidden group">
+<div class="h-48 bg-surface-container-highest relative overflow-hidden">
+<div class="absolute inset-0 bg-secondary-container/20 mix-blend-overlay z-10"></div>
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" data-alt="A visual representation of API endpoints connecting in a dark digital space. Glowing data packets moving along neon cyan paths. High contrast, data-driven, futuristic interface design." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmC13dNq6A8p6c9APUs08SFRivXOXlqXqZ4KkMzswS392V0KoCNcyHBQjWSCXhhnHyFoPqwEQRQ4vD1u5eHy7o7R2W8nqJr4jJ_r7tNXPG5UHOMVDz8umRw_1uimfkJt0cmg6BxzvMnSuO5qo2z-qzLCp0hP41DPAaHQ_Dwy5CIB5lTIEoyzsQh5R3cVmGSAGCgBKXQwObyQ287PdeO5gIESLLgfF_Z3D-E0Eu3tAEm0shtqxT2vq_gQ"/>
+<div class="absolute top-0 w-full h-6 bg-black/80 flex items-center px-2 gap-1.5 z-20">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<div class="w-2 h-2 rounded-full bg-tertiary-container"></div>
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+<span class="font-code-sm text-[10px] text-on-surface-variant ml-2">api_integration.js</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex gap-2 mb-3">
+<span class="text-[10px] font-label-caps border border-white/20 px-2 py-1 rounded text-on-surface-variant">REST APIs</span>
+<span class="text-[10px] font-label-caps border border-secondary-container/50 bg-secondary-container/10 px-2 py-1 rounded text-secondary-container">OpenAI API</span>
+</div>
+<h3 class="font-headline-lg-mobile text-white mb-2" contenteditable="true">Integração Multi-API</h3>
+<p class="font-code-sm text-on-surface-variant mb-4 h-16" contenteditable="true">Aplicação web conectando múltiplos serviços externos, processando dados em tempo real com auxílio de GenAI.</p>
+<a class="inline-flex items-center gap-2 text-secondary-container font-label-caps text-[12px] hover:text-white transition-colors group-hover:translate-x-2 duration-300" href="#">
+                                Ver Projeto <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 8. GALERIA & CERTIFICAÇÃO (Simplified for 0.25 effort) -->
+<section class="py-stack-lg border-t border-outline-variant/20">
+<div class="max-w-container-max mx-auto px-gutter text-center">
+<div class="mb-stack-md">
+<h2 class="font-headline-lg text-headline-lg text-white mb-2">Certificação SENAI</h2>
+<div class="w-16 h-1 bg-primary-container mx-auto"></div>
+</div>
+<div class="glass-panel max-w-2xl mx-auto p-8 rounded-xl border border-primary-container/30 neon-glow-primary">
+<span class="material-symbols-outlined text-5xl text-primary-container mb-4">workspace_premium</span>
+<h3 class="font-headline-lg-mobile text-white mb-2">Conclusão do Curso</h3>
+<p class="font-code-sm text-on-surface-variant mb-6">48 horas de imersão em IA Generativa aplicada à Programação.</p>
+<button class="bg-primary-container text-black font-label-caps px-6 py-3 rounded font-bold hover:shadow-[0_0_15px_rgba(0,255,136,0.5)] transition-all">
+                        Visualizar Certificado
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component Template) -->
+<footer class="w-full py-stack-md mt-stack-lg border-t border-outline-variant/30 bg-surface-container-lowest dark:bg-surface-container-lowest">
+<div class="flex flex-col md:flex-row justify-between items-center px-gutter max-w-container-max mx-auto gap-stack-sm">
+<div class="font-label-caps text-label-caps text-on-surface-variant">
+                © 2024 GEN_AI_ARCHITECT // SYSTEM_READY
+            </div>
+<div class="flex items-center gap-4">
+<span class="font-label-caps text-[10px] text-primary-container flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+                    &gt; SYSTEM.ONLINE
+                </span>
+</div>
+<div class="flex gap-4">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-container transition-colors opacity-80 hover:opacity-100" href="#">Github</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-container transition-colors opacity-80 hover:opacity-100" href="#">LinkedIn</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-secondary-container transition-colors opacity-80 hover:opacity-100" href="#">Source</a>
+</div>
+</div>
+</footer>
+</body></html>
